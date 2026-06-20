@@ -144,3 +144,11 @@ a {
 [dir="ltr"] {
   text-align: left;
 }
+
+/* Hide Next.js dev overlay indicator */
+nextjs-portal,
+#nextjs-dev-overlay,
+nextjs-dev-overlay {
+  display: none !important;
+}
+
