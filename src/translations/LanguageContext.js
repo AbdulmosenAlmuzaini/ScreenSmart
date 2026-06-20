@@ -6,23 +6,28 @@ import { translations } from './translations';
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  const [lang] = useState('ar'); // Force Arabic as only language
+  const [lang, setLang] = useState('ar'); // Default to Arabic
 
   useEffect(() => {
-    // Update HTML document attributes for RTL and language code
-    document.documentElement.lang = 'ar';
-    document.documentElement.dir = 'rtl';
-    localStorage.setItem('language', 'ar');
+    // Read from localStorage on mount
+    const savedLang = localStorage.getItem('language') || 'ar';
+    setLang(savedLang);
+    document.documentElement.lang = savedLang;
+    document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
   }, []);
 
   const toggleLanguage = () => {
-    // Disabled language switching
+    const nextLang = lang === 'ar' ? 'en' : 'ar';
+    setLang(nextLang);
+    document.documentElement.lang = nextLang;
+    document.documentElement.dir = nextLang === 'ar' ? 'rtl' : 'ltr';
+    localStorage.setItem('language', nextLang);
   };
 
-  const t = translations['ar'];
+  const t = translations[lang] || translations['ar'];
 
   return (
-    <LanguageContext.Provider value={{ lang: 'ar', setLang: () => {}, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ lang, setLang, toggleLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

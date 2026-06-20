@@ -7,7 +7,7 @@ import './login.css';
 
 export default function Login() {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { lang, toggleLanguage, t } = useLanguage();
   
   const [phone, setPhone] = useState('');
   const [passcode, setPasscode] = useState('');
@@ -164,9 +164,24 @@ export default function Login() {
       setLoading(false);
     }
   };
-
   return (
     <div className="login-page">
+      <div style={{ 
+        position: 'absolute', 
+        top: '1.5rem', 
+        right: lang === 'ar' ? 'auto' : '1.5rem', 
+        left: lang === 'ar' ? '1.5rem' : 'auto', 
+        zIndex: 10 
+      }}>
+        <button 
+          type="button" 
+          className="lang-toggle-btn"
+          style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+          onClick={toggleLanguage}
+        >
+          🌐 {lang === 'ar' ? 'English' : 'العربية'}
+        </button>
+      </div>
       <div className="login-card">
         <div className="logo-section">
           <div className="logo-icon">SS</div>
